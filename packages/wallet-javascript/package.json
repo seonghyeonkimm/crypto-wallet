@@ -1,7 +1,8 @@
 {
-  "name": "javascript-sdk",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "wallet-javascript",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "types": "./index.ts",
   "license": "MIT",
   "dependencies": {
     "web3": "^1.7.3"

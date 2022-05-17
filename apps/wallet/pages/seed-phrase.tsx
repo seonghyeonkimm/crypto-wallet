@@ -2,6 +2,7 @@ import { Typography, Button, Box, Card, CardContent } from "@mui/material";
 
 import { NextPageWithLayout } from "../types/next";
 import AppBarLayout from "../layouts/AppBarLayout";
+import Link from "next/link";
 
 const SeedPhrasePage: NextPageWithLayout = () => {
   return (
@@ -25,9 +26,11 @@ const SeedPhrasePage: NextPageWithLayout = () => {
           critic vivid
         </CardContent>
       </Card>
-      <Button variant="contained" size="large">
-        다음
-      </Button>
+      <Link href="/" passHref>
+        <Button variant="contained" size="large">
+          다음
+        </Button>
+      </Link>
     </Box>
   );
 };

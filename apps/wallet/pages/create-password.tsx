@@ -2,6 +2,7 @@ import { Typography, Button, Box, TextField } from "@mui/material";
 
 import { NextPageWithLayout } from "../types/next";
 import AppBarLayout from "../layouts/AppBarLayout";
+import Link from "next/link";
 
 const CreatePasswordPage: NextPageWithLayout = () => {
   return (
@@ -25,9 +26,11 @@ const CreatePasswordPage: NextPageWithLayout = () => {
           }}
         />
       </Box>
-      <Button variant="contained" size="large">
-        생성
-      </Button>
+      <Link href="/seed-phrase" passHref>
+        <Button variant="contained" size="large">
+          생성
+        </Button>
+      </Link>
     </Box>
   );
 };

@@ -1,7 +1,8 @@
-import { Typography, Button, Container, Box } from "@mui/material";
+import { Typography, Button, Box } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { NextPageWithLayout } from "../types/next";
 import BaseLayout from "../layouts/BaseLayout";
+import Link from "next/link";
 
 const WelcomePage: NextPageWithLayout = () => {
   return (
@@ -16,7 +17,9 @@ const WelcomePage: NextPageWithLayout = () => {
         </Typography>
       </Box>
       <Box mt={4}>
-        <Button variant="contained">시작하기</Button>
+        <Link href="/select-action" passHref>
+          <Button variant="contained">시작하기</Button>
+        </Link>
       </Box>
     </Box>
   );

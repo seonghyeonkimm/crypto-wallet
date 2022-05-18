@@ -14,6 +14,7 @@ import {
 
 import { NextPageWithLayout } from "../types/next";
 import AppBarLayout from "../layouts/AppBarLayout";
+import Link from "next/link";
 
 const HomePage: NextPageWithLayout = () => {
   const [data, setData] = React.useState<{ address: string; balance: string }>({
@@ -30,7 +31,14 @@ const HomePage: NextPageWithLayout = () => {
   return (
     <Box mt={4}>
       <Card>
-        <CardHeader title="PublicKey" subheader={data.address} />
+        <CardHeader
+          title="PublicKey"
+          subheader={
+            <Link href={`https://ropsten.etherscan.io/address/${data.address}`}>
+              <a target="_blank">{data.address}</a>
+            </Link>
+          }
+        />
         <CardContent sx={{ textAlign: "center" }}>
           <Typography variant="h6">{data.balance} ETH</Typography>
           <Box my={2}>

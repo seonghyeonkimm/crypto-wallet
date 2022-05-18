@@ -1,7 +1,10 @@
+import * as React from "react";
 import { CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
 
 import { NextPageWithLayout } from "../types/next";
+import Web3ETH from "wallet-javascript";
+import { Web3Provider } from "../hooks/useWeb3";
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -17,7 +20,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Layout>
       <CssBaseline />
-      <Component {...pageProps} />
+      <Web3Provider>
+        <Component {...pageProps} />
+      </Web3Provider>
     </Layout>
   );
 }

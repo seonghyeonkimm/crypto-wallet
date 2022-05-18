@@ -13,9 +13,6 @@
   "repository": "https://github.com/seonghyeonkimm/crypto-wallet.git",
   "author": "demian <demian@kcd.co.kr>",
   "license": "MIT",
-  "dependencies": {
-    "web3": "^1.7.3"
-  },
   "devDependencies": {
     "turbo": "^1.2.9"
   }

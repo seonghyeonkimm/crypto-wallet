@@ -15,8 +15,9 @@ export const useWeb3 = () => {
 
 export const Web3Provider = ({ children }: React.PropsWithChildren<{}>) => {
   const { current: web3 } = React.useRef(
-    // TODO: need to change endpoint
-    new Web3ETH({ url: "HTTP://127.0.0.1:7545" })
+    new Web3ETH({
+      url: "https://tn.henesis.io/ethereum/ropsten?clientId=815fcd01324b8f75818a755a72557750",
+    })
   );
 
   return <Web3Context.Provider value={web3}>{children}</Web3Context.Provider>;

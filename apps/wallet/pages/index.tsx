@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Typography,
   Button,
@@ -15,16 +16,23 @@ import { NextPageWithLayout } from "../types/next";
 import AppBarLayout from "../layouts/AppBarLayout";
 
 const HomePage: NextPageWithLayout = () => {
+  const [data, setData] = React.useState<{ address: string; balance: string }>({
+    address: "-",
+    balance: "0",
+  });
+
+  React.useEffect(() => {
+    fetch("/api/wallet", { method: "GET" }).then((response) => {
+      response.json().then((result) => setData(result));
+    });
+  }, []);
+
   return (
     <Box mt={4}>
       <Card>
-        <CardHeader
-          title="PublicKey"
-          subheader="0x0aBBC0c7d0ecdeC69b67c548DE05d0eF51f7D165"
-        />
+        <CardHeader title="PublicKey" subheader={data.address} />
         <CardContent sx={{ textAlign: "center" }}>
-          <Typography variant="h6">0 ETH</Typography>
-          <Typography variant="body1">$0.00 USD</Typography>
+          <Typography variant="h6">{data.balance} ETH</Typography>
           <Box my={2}>
             <Button variant="contained">기부하기</Button>
           </Box>

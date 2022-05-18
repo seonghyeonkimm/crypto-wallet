@@ -34,10 +34,6 @@ const SelectActionPage: NextPageWithLayout = () => {
 
   const handleClose = () => setOpen(false);
 
-  React.useEffect(() => {
-    router.prefetch("/");
-  }, [router]);
-
   return (
     <Box mt={8} textAlign="center">
       <Box mt={3}>
@@ -50,7 +46,7 @@ const SelectActionPage: NextPageWithLayout = () => {
           title="아니요. 이미 비밀 복구 구문이 있습니다."
           description="비밀 복구 구문을 사용하여 기존 지갑 가져오기"
           action={
-            <Link href="/import-with-seed-phrase" passHref>
+            <Link href="/import-wallet" passHref>
               <Button type="button" variant="contained">
                 지갑 가져오기
               </Button>

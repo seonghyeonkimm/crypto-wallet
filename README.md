@@ -1,58 +1,40 @@
 # Crypto Wallet
 
+## <a href="https://crypto-wallet-orpin.vercel.app/" target="_blank">Demo</a>
+
+![demo-gif](https://cdn.jsdelivr.net/gh/seonghyeonkimm/crypto-wallet/docs/wallet-demo.gif)
+
+## Development
+
+```sh
+yarn # install dependencies and devDependencies
+yarn dev # start next.js
+```
+
 ## Overview
 
-- create metamask
-- crypto wallet which allows to create wallet and send transaction
-- use ropsten (testnet) as my Dapps mainnet
-  - https://tn.henesis.io/ethereum/ropsten?clientId=815fcd01324b8f75818a755a72557750
+- [turborepo](https://turborepo.org/)를 사용해서 dapps sdk와 dapps를 monorepo형태로 구현했습니다.
 
-## Features
+## Packages
 
-### dapps이 사용할 javascript sdk를 만들어라..!
+- wallet-javascript
+  - dapps에서 사용할 javascript sdk를 만든다는 생각으로 작업했습니다.
+  - 블록체인에 대한 이해 및 web3.js에 대한 이해가 충분하지 않아 많이 미흡합니다.
+  - 사용한 라이브러리
+    - [web3.js](https://web3js.readthedocs.io/en/v1.7.3/getting-started.html)
 
-- signUp
-  - 지갑생성
-- signIn
-  - 지갑의 privateKey를 가져온다(?)
+## Apps
 
-### dapps (지갑)
+- wallet
+  - 위의 wallet-javascript를 사용해서 crypto 지갑 웹 서비스를 작업했습니다.
+  - 사용한 라이브러리
+    - [react](https://ko.reactjs.org/)
+    - [next.js](https://nextjs.org/)
+    - wallet-javascript
 
-- signUp
-- signIn
-- web3 provider..?
+## 회고
 
-## assessment standards
-
-- 기능성
-  - 요구사항에 맞게 올바른 결과를 제공하는지 확인합니다.
-- 유지보수성
-  - 재사용 가능한 컴포넌트 분리되어 있는지 확인합니다.
-  - 빠르고 쉽게 테스트 할 수 있는지 확인합니다.
-  - 코드가 구조적으로 잘 나뉘어져 있고 가독성이 좋은지 확인합니다.
-- 사용성
-- 다른 개발자가 쉽게 해당 코드를 실행하고 제어할 수 있도록 문서, 스크립트 등이 잘 제공되는지 확인합니다.
-- 보안
-  - 어떻게하면 고객의 비밀키를 안전하게 관리할지 고민합니다.
-  - 해당 방법을 구현하면 좋고, 시간이 부족하다면 앞으로 어떻게 구현할지 방안을 제안합니다.
-
-## questions
-
-### required에 react, react-native로 되어있는데 앱으로 구성해야된다는 뜻일까요 ? 아니면 그냥 웹으로 구현해도 문제없을까요?
-
-- react, react-native
-
-- 과제의 요구사항 관련해서 dapp이 사용할 지갑 sdk
-
-### History
-
-- 문제에 대한 이해
-  - web3.js를 사용해서 dapps가 사용할 수 있는 sdk를 만든다.
-  - 직접 작업한 sdk를 사용해서 지갑 dapps를 만든다.
-- web3.js를 사용해서 sdk를 만든다는 이해했다.
-  - 그런데 여기서 회원가입이란 무엇이며, 로그인이란 무엇일까?
-  - (????) 회원가입이란 지갑을 생성하는 것을 뜻하고,
-  - (????) 로그인이란 seed phrase + password로 지갑 객체를 가져온다..?
-  - web3 Provider란 로그인되어 있는 유저가 특정 액션을 할 수 있는 상태를 뜻하는 것으로 파악...
-  - (????) 여기서 회원가입, 로그인이 무엇인지 모르겠다. web3js tutorial을 한번 찾아본다..(?)
-- 우선 web3에 대한 이해가 부족해서 시간이 너무 흐르기 전에 UI만 싹 우선 그려 놓는 방향으로 전환
+- 블록체인 및 관련 라이브러리에 대한 이해가 부족해서 정확히 이해하지 못하고 구현한 부분이 많습니다.
+- 보안적으로 account privateKey를 어떻게 보관하고 사용해야할지에 대해서 생각해보다가 처음에 선택한 방법은 httpOnly cookie로 저장해서 사용하는 것이었습니다.
+  - 그런데, 나중에 생각해보니 브라우저에는 sessionId만 노출하고, 서버에서만 privateKey를 들고 있으면 좋을까 생각했고,
+  - 더 생각해보니 privateKey 자체는 정말로 너무 private하고 굉장히 중요한 정보라서 중앙서버가 그대로 알고 있기 보단 암호화해서 가지고 있거나 혹은 브라우저에 저장하는게 오히려 더 안전할 수 있겠다는 생각을 했습니다. password와 seed phrase를 사용해서 암호화와 보안에 더 신경썼어야했는데, 관련 내용에 대한 이해가 부족해서 구현하지 못했습니다.

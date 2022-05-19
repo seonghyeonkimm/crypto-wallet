@@ -15,17 +15,54 @@ import {
 import { NextPageWithLayout } from "../types/next";
 import AppBarLayout from "../layouts/AppBarLayout";
 import Link from "next/link";
+import { useWeb3 } from "../hooks/useWeb3";
 
 const HomePage: NextPageWithLayout = () => {
-  const [data, setData] = React.useState<{ address: string; balance: string }>({
-    address: "-",
+  const web3 = useWeb3();
+  const [loading, setLoading] = React.useState(false);
+  const [data, setData] = React.useState<{
+    address: string;
+    balance: string;
+    txLists: any[];
+  }>({
+    address: "",
     balance: "0",
+    txLists: [],
   });
 
+  const loadWallet = () => {
+    setLoading(true);
+    fetch("/api/wallet", { method: "GET" })
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        setData(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const sendEtherToRandomUser = () => {
+    setLoading(true);
+    web3
+      .sendTransaction({
+        to: "0x42c033aA6569a14f809F0Fb52566e06651f441BB",
+        value: "1",
+        from: data.address,
+      })
+      .then(() => {
+        loadWallet();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   React.useEffect(() => {
-    fetch("/api/wallet", { method: "GET" }).then((response) => {
-      response.json().then((result) => setData(result));
-    });
+    loadWallet();
   }, []);
 
   return (
@@ -34,15 +71,27 @@ const HomePage: NextPageWithLayout = () => {
         <CardHeader
           title="PublicKey"
           subheader={
-            <Link href={`https://ropsten.etherscan.io/address/${data.address}`}>
-              <a target="_blank">{data.address}</a>
-            </Link>
+            data.address ? (
+              <Link
+                href={`https://ropsten.etherscan.io/address/${data.address}`}
+              >
+                <a target="_blank">{data.address}</a>
+              </Link>
+            ) : (
+              "-"
+            )
           }
         />
         <CardContent sx={{ textAlign: "center" }}>
           <Typography variant="h6">{data.balance} ETH</Typography>
           <Box my={2}>
-            <Button variant="contained">기부하기</Button>
+            <Button
+              disabled={loading}
+              variant="contained"
+              onClick={sendEtherToRandomUser}
+            >
+              기부하기
+            </Button>
           </Box>
           <hr />
           <List>

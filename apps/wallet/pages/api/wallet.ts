@@ -20,10 +20,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
+    // TODO: txLists 어떻게 가져오지?
     const web3 = createWeb3();
     const account = web3.signIn(req.cookies.wallet_id);
     const balance = await web3.getBalance(account.address);
-    res.status(200).json({ address: account.address, balance });
+    res.status(200).json({ address: account.address, balance, txLists: [] });
     return;
   }
 

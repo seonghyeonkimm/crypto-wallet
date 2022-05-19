@@ -26,26 +26,23 @@ class Web3ETH {
     return this.web3.utils.fromWei(balance, unit);
   }
 
-  async signTransaction(
-    privateKey: string,
-    {
+  async sendTransaction({
+    to,
+    from,
+    value,
+    gas,
+  }: {
+    to: string;
+    from: string;
+    value: string;
+    gas?: number;
+  }) {
+    const tx = await this.web3.eth.sendTransaction({
       to,
       value,
-      gas = 20000000000,
-    }: {
-      to: string;
-      value: string;
-      gas?: number;
-    }
-  ) {
-    const tx = await this.web3.eth.accounts.signTransaction(
-      {
-        to,
-        value,
-        gas,
-      },
-      privateKey
-    );
+      from,
+      gas,
+    });
 
     return tx;
   }

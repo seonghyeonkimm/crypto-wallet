@@ -17,18 +17,21 @@ import AppBarLayout from "../layouts/AppBarLayout";
 import Link from "next/link";
 import { useWeb3 } from "../hooks/useWeb3";
 
+type TransactionReceipt = Awaited<
+  ReturnType<ReturnType<typeof useWeb3>["sendTransaction"]>
+>;
+
 const HomePage: NextPageWithLayout = () => {
   const web3 = useWeb3();
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState<{
     address: string;
     balance: string;
-    txLists: any[];
   }>({
     address: "",
     balance: "0",
-    txLists: [],
   });
+  const [txList, setTxList] = React.useState<TransactionReceipt[]>([]);
 
   const loadWallet = () => {
     setLoading(true);
@@ -53,8 +56,9 @@ const HomePage: NextPageWithLayout = () => {
         value: "1",
         from: data.address,
       })
-      .then(() => {
+      .then((txResult) => {
         loadWallet();
+        setTxList((prev) => [...prev, txResult]);
       })
       .catch(() => {
         setLoading(false);
@@ -94,29 +98,29 @@ const HomePage: NextPageWithLayout = () => {
             </Button>
           </Box>
           <hr />
+          {txList.length === 0 && (
+            <Typography variant="h6" sx={{ marginTop: 4 }}>
+              처리된 거래가 없습니다.
+            </Typography>
+          )}
           <List>
-            <ListItem disablePadding>
-              <ListItemButton
-                component="a"
-                target="_blank"
-                href="https://ropsten.etherscan.io/tx/0xce94e49a5ea212aec97f2e5d0d437cf8b3491c6a8a9214ba1516c08f4f1a6d31"
-              >
-                <ListItemText
-                  primary={`(${new Date().toLocaleDateString()}) Transaction Hash\n0xce94e49a5ea212aec97f2e5d0d437cf8b3491c6a8a9214ba1516c08f4f1a6d31`}
-                />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                component="a"
-                target="_blank"
-                href="https://ropsten.etherscan.io/tx/0xce94e49a5ea212aec97f2e5d0d437cf8b3491c6a8a9214ba1516c08f4f1a6d31"
-              >
-                <ListItemText
-                  primary={`(${new Date().toLocaleDateString()}) Transaction Hash\n0xce94e49a5ea212aec97f2e5d0d437cf8b3491c6a8a9214ba1516c08f4f1a6d31`}
-                />
-              </ListItemButton>
-            </ListItem>
+            {txList.map((tx, txIndex) => {
+              return (
+                <ListItem disablePadding key={tx.transactionHash}>
+                  <ListItemButton
+                    component="a"
+                    target="_blank"
+                    href={`https://ropsten.etherscan.io/tx/${tx.transactionHash}`}
+                  >
+                    <ListItemText
+                      primary={`(${txIndex + 1}) Transaction Hash: ${
+                        tx.transactionHash
+                      }`}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
           </List>
         </CardContent>
       </Card>

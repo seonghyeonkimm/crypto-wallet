@@ -65,6 +65,7 @@ const HomePage: NextPageWithLayout = () => {
     <Box mt={4}>
       <Card>
         <CardHeader
+          sx={{ wordBreak: "break-all" }}
           title="PublicKey"
           subheader={
             data.address ? (

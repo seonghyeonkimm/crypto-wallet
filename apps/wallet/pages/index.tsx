@@ -33,41 +33,33 @@ const HomePage: NextPageWithLayout = () => {
   });
   const [txList, setTxList] = React.useState<TransactionReceipt[]>([]);
 
-  const loadWallet = () => {
-    setLoading(true);
-    fetch("/api/wallet", { method: "GET" })
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        setData(result);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
+  const loadWallet = React.useCallback(async () => {
+    const response = await fetch("/api/wallet", { method: "GET" });
+    const { address } = await response.json();
+    const balance = await web3.getBalance(address);
+    setData({ address, balance });
+  }, [web3]);
 
-  const sendEtherToRandomUser = () => {
+  const sendEtherToRandomUser = async () => {
     setLoading(true);
-    web3
-      .sendTransaction({
-        to: "0x42c033aA6569a14f809F0Fb52566e06651f441BB",
+    try {
+      const txResult = await web3.sendTransaction({
+        to: "0x96B5834632ea9546bA0C990574Ba8e348603F93c",
         value: "1",
         from: data.address,
-      })
-      .then((txResult) => {
-        loadWallet();
-        setTxList((prev) => [...prev, txResult]);
-      })
-      .catch(() => {
-        setLoading(false);
       });
+
+      loadWallet();
+      setTxList((prev) => [...prev, txResult]);
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
   };
 
   React.useEffect(() => {
     loadWallet();
-  }, []);
+  }, [loadWallet]);
 
   return (
     <Box mt={4}>

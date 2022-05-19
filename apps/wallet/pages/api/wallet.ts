@@ -5,6 +5,9 @@ import { createWeb3 } from "../../utils/web3";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const walletId = JSON.parse(req.body).privateKey;
+    // TODO: set cookie not privateKey but session id
+    // or maybe privateKey should be handled in the local machine
+    // cause it is very private information
     res.setHeader(
       "Set-Cookie",
       serialize("wallet_id", walletId, { path: "/", httpOnly: true })
@@ -22,8 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const web3 = createWeb3();
     const account = web3.signIn(req.cookies.wallet_id);
-    const balance = await web3.getBalance(account.address);
-    res.status(200).json({ address: account.address, balance });
+    res.status(200).json({ address: account.address });
     return;
   }
 

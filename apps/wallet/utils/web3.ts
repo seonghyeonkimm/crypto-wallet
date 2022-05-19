@@ -2,6 +2,6 @@ import Web3ETH from "wallet-javascript";
 
 export function createWeb3() {
   return new Web3ETH({
-    url: "https://tn.henesis.io/ethereum/ropsten?clientId=815fcd01324b8f75818a755a72557750",
+    url: "https://ropsten.infura.io/v3/be30c9328ce14752a6f27b3b986312c7",
   });
 }
